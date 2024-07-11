@@ -3,19 +3,19 @@ Tests for models.
 """
 from decimal import Decimal
 
-from django.test import TestCase                #Base class for tests
-from django.contrib.auth import get_user_model  #Helper function
+from django.test import TestCase
+from django.contrib.auth import get_user_model
 
 from core import models
 
 
 def create_user(email='user@example.com', password='testpass123'):
-    """Create and return a new user."""
+    """Create a return a new user."""
     return get_user_model().objects.create_user(email, password)
 
 
 class ModelTests(TestCase):
-    """"Test models."""
+    """Test models."""
 
     def test_create_user_with_email_successful(self):
         """Test creating a user with an email is successful."""
@@ -31,11 +31,11 @@ class ModelTests(TestCase):
 
     def test_new_user_email_normalized(self):
         """Test email is normalized for new users."""
-        sample_emails =[
+        sample_emails = [
             ['test1@EXAMPLE.com', 'test1@example.com'],
             ['Test2@Example.com', 'Test2@example.com'],
-            ['TEST3@EXAMPLE.COM', 'TEST3@example.com'],
-            ['test4@example.com', 'test4@example.com'],
+            ['TEST3@EXAMPLE.com', 'TEST3@example.com'],
+            ['test4@example.COM', 'test4@example.com'],
         ]
         for email, expected in sample_emails:
             user = get_user_model().objects.create_user(email, 'sample123')
@@ -48,12 +48,12 @@ class ModelTests(TestCase):
 
     def test_create_superuser(self):
         """Test creating a superuser."""
-        user = get_user_model().objects.create_superuser(  #Method to create superusers
+        user = get_user_model().objects.create_superuser(
             'test@example.com',
             'test123',
         )
 
-        self.assertTrue(user.is_superuser)              # Fiels provided by PermissionsMixin
+        self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
     def test_create_recipe(self):
@@ -67,7 +67,7 @@ class ModelTests(TestCase):
             title='Sample recipe name',
             time_minutes=5,
             price=Decimal('5.50'),
-            description='Sample recipe description.',
+            description='Sample receipe description.',
         )
 
         self.assertEqual(str(recipe), recipe.title)
@@ -78,7 +78,3 @@ class ModelTests(TestCase):
         tag = models.Tag.objects.create(user=user, name='Tag1')
 
         self.assertEqual(str(tag), tag.name)
-
-
-
-

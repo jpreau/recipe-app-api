@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='recipe',
             name='tags',
-            field=models.ManyToManyField(to='core.tag'),
+            field=models.ManyToManyField(to='core.Tag'),
         ),
     ]
