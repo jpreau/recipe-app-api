@@ -1,5 +1,5 @@
 """
-Tests for tags API.
+Tests for the tags API.
 """
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -22,7 +22,7 @@ def detail_url(tag_id):
 
 
 def create_user(email='user@example.com', password='testpass123'):
-    """"Create and return a user."""
+    """Create and return a user."""
     return get_user_model().objects.create_user(email=email, password=password)
 
 
@@ -48,7 +48,7 @@ class PrivateTagsApiTests(TestCase):
         self.client.force_authenticate(self.user)
 
     def test_retrieve_tags(self):
-        """Test retrieving a list of tatgs."""
+        """Test retrieving a list of tags."""
         Tag.objects.create(user=self.user, name='Vegan')
         Tag.objects.create(user=self.user, name='Dessert')
 
@@ -76,7 +76,7 @@ class PrivateTagsApiTests(TestCase):
         """Test updating a tag."""
         tag = Tag.objects.create(user=self.user, name='After Dinner')
 
-        payload = {'name': 'Dessert'}       #Request
+        payload = {'name': 'Dessert'}
         url = detail_url(tag.id)
         res = self.client.patch(url, payload)
 
@@ -94,7 +94,3 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         tags = Tag.objects.filter(user=self.user)
         self.assertFalse(tags.exists())
-
-
-
-
